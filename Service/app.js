@@ -2,6 +2,7 @@ const express = require('express');
 const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
+const config = require('./config'); // config.js dosyasını içe aktarın
 
 const app = express();
 const port = 3000;
@@ -9,13 +10,7 @@ const port = 3000;
 app.use(cors());
 
 // PostgreSQL veritabanı bağlantısı
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'postgres',
-  password: '12345678Mm!',
-  port: 5432,
-});
+const pool = new Pool(config.dbConfig); 
 
 app.use(express.json());
 
@@ -39,7 +34,8 @@ app.post('/register', async (req, res) => {
 // Kullanıcıları listele
 app.get('/users', async (req, res) => {
   try {
-    const query = 'SELECT * ßFROM users';
+    console.log('Kullanıcı listeleme çalıştı... /users');
+    const query = 'SELECT * FROM users';
     const result = await pool.query(query);
     res.json(result.rows);
   } catch (error) {
