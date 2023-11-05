@@ -1,6 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import CartPages from "./pages/CartPages";
+import CartPage from "./pages/CartPage";
+import BillPage from "./pages/BillPage";
+import CustomerPage from "./pages/CustomerPage";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -8,7 +11,10 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
-        <Route path="/cart" element={<CartPages />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/bills" element={<BillPage />} />
+        <Route path="/customers" element={<CustomerPage />} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

@@ -47,14 +47,14 @@ const Header = () => {
             </Link>
           </Badge>
           <Link
-            to="/"
+            to="/bills"
             className="menu-link flex flex-col items-center hover:text-[#40a9ff] transition-all"
           >
             <CopyOutlined className="md:text-2xl text-xl" />
             <span className="md:text-xs text-[10px]">Faturalar</span>
           </Link>
           <Link
-            to="/"
+            to="/customers"
             className="menu-link flex flex-col items-center hover:text-[#40a9ff] transition-all"
           >
             <UserOutlined className="md:text-2xl text-xl" />
