@@ -49,11 +49,20 @@ const RegisterPage = () => {
             <Form.Item
               label="Şifre Tekrarı"
               name={"passwordAgain"}
+              dependencies={["password"]}
               rules={[
                 {
                   required: true,
                   message: "Şifre Tekrarı Boş Bırakılamaz!",
                 },
+                ({ getFieldValue })=> ({
+                  validator(_, value) {
+                    if (!value || getFieldValue('password') === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(new Error('Girilen şifre ile uyuşmamaktadır.'))
+                  }
+                })
               ]}
             >
               <Input.Password />

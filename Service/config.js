@@ -1,10 +1,6 @@
-// PostgreSQL veritabanı bağlantısı
+// MongoDb Cloud database connection
 module.exports = {
-    dbConfig: {
-      user: 'postgres',
-      host: 'localhost',
-      database: 'postgres',
-      password: '12345678Mm!',
-      port: 5432,
-    }
-  };
+  dbConfig: {
+    url: "mongodb+srv://cemahmutogutcu:QqlwOU9uzlzY2ycq@cluster0.hhggu4g.mongodb.net/pos-appdb",
+  }
+};

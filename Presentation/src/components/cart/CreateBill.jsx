@@ -1,9 +1,6 @@
 import { Form, Input, Modal, Select, Card, Button } from "antd";
 
 const CreateBill = ({ isModalOpen, setIsModalOpen }) => {
-  const onFinish = (values) => {
-    console.log("Received values of form:", values);
-  };
   return (
     <Modal
       title="Yeni Fatura Oluştur"
@@ -13,7 +10,7 @@ const CreateBill = ({ isModalOpen, setIsModalOpen }) => {
         setIsModalOpen(false);
       }}
     >
-      <Form layout="vertical" onFinish={onFinish}>
+      <Form layout="vertical">
         <Form.Item
           label="Müşteri Adı"
           name={""}

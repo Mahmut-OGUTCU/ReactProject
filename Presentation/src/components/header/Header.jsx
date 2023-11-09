@@ -68,7 +68,7 @@ const Header = () => {
             <span className="md:text-xs text-[10px]">İstatikler</span>
           </Link>
           <Link
-            to="/"
+            to="/login"
             className="menu-link flex flex-col items-center hover:text-[#40a9ff] transition-all"
           >
             <LogoutOutlined className="md:text-2xl text-xl" />
@@ -77,7 +77,7 @@ const Header = () => {
         </div>
         <Badge count={5} offset={[0, 6]} className="md:hidden flex">
           <Link
-            to={"/"}
+            to={"/cart"}
             className="menu-link flex flex-col hover:text-[#40a9ff] transition-all"
           >
             <ShoppingCartOutlined className="text-2xl" />

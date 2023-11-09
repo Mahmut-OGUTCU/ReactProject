@@ -16,9 +16,7 @@ const StatisticPage = () => {
     )
       .then((response) => response.json())
       .then((json) => setData(json))
-      .catch((error) => {
-        console.log("fetch data failed", error);
-      });
+      .catch((error) => {});
   };
 
   const data2 = [
