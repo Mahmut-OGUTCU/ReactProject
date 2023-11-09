@@ -7,7 +7,15 @@ const config = require('./config');
 
 const port = 5000;
 
-app.use(cors());
+// Cors yapılandırması
+const corsOptions = {
+  origin: '*', // İzin verilen alanın URL'sini buraya ekleyin
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.listen(port, () => {
