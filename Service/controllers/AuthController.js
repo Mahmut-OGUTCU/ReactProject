@@ -5,7 +5,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { formatString, isValidEmail } = require('../utils');
+const { formatString, isValidEmail } = require('../helper/utils');
 const checkAuth = require('../middleware');
 
 /**
@@ -57,7 +57,7 @@ router.post('/register', async (req, res) => {
         await value.save();
 
         // başarılı olarak dönüt ver
-        res.status(201).send({ status: true, message: 'Kullanıcı kayıt oldu.', data: value });
+        res.status(200).send({ status: true, message: 'Kullanıcı kayıt oldu.', data: value });
     } catch (err) {
         // hata alınması durumunda başarısız olarak dönüt ver
         res.status(500).send({ status: false, message: `Kullanıcı kaydı sırasında bir hata oluştu. Hata: ${err}`, data: null });
@@ -98,7 +98,7 @@ router.post('/login', async (req, res) => {
         user.lastlogin = new Date();
 
         // kaydı güncelle
-        await value.save();
+        await user.save();
 
         res.status(200).send({ status: true, message: 'Giriş başarılı.', data: token });
 

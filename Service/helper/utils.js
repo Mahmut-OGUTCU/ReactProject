@@ -56,10 +56,15 @@ function isEmptyorNull(val) {
         return ""
 }
 
+function isNumber(value) {
+    return typeof value === 'number';
+}
+
 module.exports = {
     isValidEmail,
     isValidPhoneNumber,
     isValidTCNumber,
     formatString,
-    phoneNumberFormat
+    phoneNumberFormat,
+    isNumber,
 };

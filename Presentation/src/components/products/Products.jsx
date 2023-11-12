@@ -1,274 +1,37 @@
-const Products = () => {
-    return (
-        <div className="products-wrapper grid grid-cols-[repeat(auto-fill,_minmax(150px,_1fr))] gap-4" style={{
-            gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))"
-        }}>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg" alt="" className="h-28 object-cover w-full border-b" />
-                </div>
-                <div className="product-info flex flex-col">
-                    <span className="font-bold">Elma</span>
-                    <span className="">12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg" alt="" className="h-28 object-cover w-full border-b" />
-                </div>
-                <div className="product-info flex flex-col">
-                    <span className="font-bold">Elma</span>
-                    <span className="">12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg" alt="" className="h-28 object-cover w-full border-b" />
-                </div>
-                <div className="product-info flex flex-col">
-                    <span className="font-bold">Elma</span>
-                    <span className="">12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg" alt="" className="h-28 object-cover w-full border-b" />
-                </div>
-                <div className="product-info flex flex-col">
-                    <span className="font-bold">Elma</span>
-                    <span className="">12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg" alt="" className="h-28 object-cover w-full border-b" />
-                </div>
-                <div className="product-info flex flex-col">
-                    <span className="font-bold">Elma</span>
-                    <span className="">12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg" alt="" className="h-28 object-cover w-full border-b" />
-                </div>
-                <div className="product-info flex flex-col">
-                    <span className="font-bold">Elma</span>
-                    <span className="">12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg" alt="" className="h-28 object-cover w-full border-b" />
-                </div>
-                <div className="product-info flex flex-col">
-                    <span className="font-bold">Elma</span>
-                    <span className="">12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg" alt="" className="h-28 object-cover w-full border-b" />
-                </div>
-                <div className="product-info flex flex-col">
-                    <span className="font-bold">Elma</span>
-                    <span className="">12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg" alt="" className="h-28 object-cover w-full border-b" />
-                </div>
-                <div className="product-info flex flex-col">
-                    <span className="font-bold">Elma</span>
-                    <span className="">12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg" alt="" className="h-28 object-cover w-full border-b" />
-                </div>
-                <div className="product-info flex flex-col">
-                    <span className="font-bold">Elma</span>
-                    <span className="">12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg" alt="" className="h-28 object-cover w-full border-b" />
-                </div>
-                <div className="product-info flex flex-col">
-                    <span className="font-bold">Elma</span>
-                    <span className="">12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg" alt="" className="h-28 object-cover w-full border-b" />
-                </div>
-                <div className="product-info flex flex-col">
-                    <span className="font-bold">Elma</span>
-                    <span className="">12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img
-                        src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg"
-                        alt=""
-                        className="h-28 object-cover w-full border-b"
-                    />
-                </div>
-                <div className="product-info flex flex-col p-3">
-                    <span className="font-bold">Elma</span>
-                    <span>12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img
-                        src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg"
-                        alt=""
-                        className="h-28 object-cover w-full border-b"
-                    />
-                </div>
-                <div className="product-info flex flex-col p-3">
-                    <span className="font-bold">Elma</span>
-                    <span>12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img
-                        src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg"
-                        alt=""
-                        className="h-28 object-cover w-full border-b"
-                    />
-                </div>
-                <div className="product-info flex flex-col p-3">
-                    <span className="font-bold">Elma</span>
-                    <span>12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img
-                        src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg"
-                        alt=""
-                        className="h-28 object-cover w-full border-b"
-                    />
-                </div>
-                <div className="product-info flex flex-col p-3">
-                    <span className="font-bold">Elma</span>
-                    <span>12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img
-                        src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg"
-                        alt=""
-                        className="h-28 object-cover w-full border-b"
-                    />
-                </div>
-                <div className="product-info flex flex-col p-3">
-                    <span className="font-bold">Elma</span>
-                    <span>12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img
-                        src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg"
-                        alt=""
-                        className="h-28 object-cover w-full border-b"
-                    />
-                </div>
-                <div className="product-info flex flex-col p-3">
-                    <span className="font-bold">Elma</span>
-                    <span>12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img
-                        src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg"
-                        alt=""
-                        className="h-28 object-cover w-full border-b"
-                    />
-                </div>
-                <div className="product-info flex flex-col p-3">
-                    <span className="font-bold">Elma</span>
-                    <span>12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img
-                        src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg"
-                        alt=""
-                        className="h-28 object-cover w-full border-b"
-                    />
-                </div>
-                <div className="product-info flex flex-col p-3">
-                    <span className="font-bold">Elma</span>
-                    <span>12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img
-                        src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg"
-                        alt=""
-                        className="h-28 object-cover w-full border-b"
-                    />
-                </div>
-                <div className="product-info flex flex-col p-3">
-                    <span className="font-bold">Elma</span>
-                    <span>12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img
-                        src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg"
-                        alt=""
-                        className="h-28 object-cover w-full border-b"
-                    />
-                </div>
-                <div className="product-info flex flex-col p-3">
-                    <span className="font-bold">Elma</span>
-                    <span>12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img
-                        src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg"
-                        alt=""
-                        className="h-28 object-cover w-full border-b"
-                    />
-                </div>
-                <div className="product-info flex flex-col p-3">
-                    <span className="font-bold">Elma</span>
-                    <span>12₺</span>
-                </div>
-            </div>
-            <div className="product-item border hover:shadow-lg cursor-pointer transition-all select-none">
-                <div className="product-img">
-                    <img
-                        src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg"
-                        alt=""
-                        className="h-28 object-cover w-full border-b"
-                    />
-                </div>
-                <div className="product-info flex flex-col p-3">
-                    <span className="font-bold">Elma</span>
-                    <span>12₺</span>
-                </div>
-            </div>
-        </div>
-    )
-}
+import { Link } from "react-router-dom";
+import { PlusOutlined, EditOutlined } from "@ant-design/icons";
+import ProductItem from "./ProductsItem";
+import ProductsAddModal from "./ProductsAddModal";
+import { useState } from "react";
 
-export default Products
+const Products = ({ products, setProducts, categories }) => {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  return (
+    <div className="products-wrapper grid grid-cols-card gap-4">
+      {products.map((item) => (
+        <ProductItem item={item} setProducts={setProducts} key={item._id} />
+      ))}
+      <div
+        className="product-item border hover:shadow-lg cursor-pointer transition-all select-none bg-purple-800 flex justify-center items-center hover:opacity-90 min-h-[150px]"
+        onClick={() => setIsAddModalOpen(true)}
+      >
+        <PlusOutlined className="md:text-2xl text-white" />
+      </div>
+      <Link
+        to="/products"
+        className="product-item border hover:shadow-lg cursor-pointer transition-all select-none bg-orange-800 flex justify-center items-center hover:opacity-90 min-h-[150px]"
+      >
+        <EditOutlined className="md:text-2xl text-white" />
+      </Link>
+      <ProductsAddModal
+        isAddModalOpen={isAddModalOpen}
+        setIsAddModalOpen={setIsAddModalOpen}
+        products={products}
+        setProducts={setProducts}
+        categories={categories}
+      />
+    </div>
+  );
+};
+
+export default Products;

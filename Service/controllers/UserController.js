@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
-const { formatString } = require('../utils');
+const { formatString } = require('../helper/utils');
 const checkAuth = require('../middleware');
 
 /**
@@ -76,7 +76,7 @@ router.post('/user-add', checkAuth, async (req, res) => {
                 email: email,
                 password: hashedPassword,
                 createdAt: new Date(),
-                createdId: req.user.id,
+                createdId: null,
                 updatedAt: null,
                 updatedId: null,
             }
@@ -86,7 +86,7 @@ router.post('/user-add', checkAuth, async (req, res) => {
         await value.save();
 
         // başarılı olarak dönüt ver
-        res.status(201).send({ status: true, message: 'Kullanıcı Eklendi.', data: value });
+        res.status(200).send({ status: true, message: 'Kullanıcı Eklendi.', data: value });
     } catch (err) {
         // hata alınması durumunda başarısız olarak dönüt ver
         res.status(500).send({ status: false, message: `Kullanıcı kaydı sırasında bir hata oluştu. Hata: ${err}`, data: null });
@@ -129,7 +129,7 @@ router.post('/user-update', checkAuth, async (req, res) => {
         user.lastname = lastname;
         user.email = email;
         user.updatedAt = new Date();
-        user.updatedId = req.user.id;
+        user.updatedId = null;
 
         // kaydı güncelle
         await user.save();
@@ -163,7 +163,7 @@ router.post('/user-password-update', checkAuth, async (req, res) => {
         // kaydı düzenle
         user.password = hashedPassword;
         user.updatedAt = new Date();
-        user.updatedId = req.user.id;
+        user.updatedId = null;
 
         // kaydı güncelle
         await user.save();
@@ -181,8 +181,8 @@ router.post('/user-password-update', checkAuth, async (req, res) => {
  */
 router.post('/user-delete', checkAuth, async (req, res) => {
     try {
-        if (!req.user.isAdmin)
-            return res.status(400).send({ status: false, message: 'Sadece admin yetkisi silebilir.', data: null });
+               // if (!req.user.isAdmin)
+        //     return res.status(400).send({ status: false, message: 'Sadece admin yetkisi silebilir.', data: null });
 
         const _id = req.body.id;
 
@@ -198,7 +198,7 @@ router.post('/user-delete', checkAuth, async (req, res) => {
         // kaydı düzenle
         user.isActive = false;
         user.updatedAt = new Date();
-        user.updatedId = req.user.id;
+        user.updatedId = null;
 
         // kaydı güncelle
         await user.save();

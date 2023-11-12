@@ -4,7 +4,7 @@ const Product = require('../models/Product');
 const express = require('express');
 const router = express.Router();
 const mongoose = require("mongoose");
-const { formatString } = require('../utils');
+const { formatString, isNumber } = require('../helper/utils');
 const checkAuth = require('../middleware');
 
 /**
@@ -47,7 +47,7 @@ router.post('/product-add', checkAuth, async (req, res) => {
         const title = formatString(req.body.title);
         const img = req.body.img;
         const price = req.body.price;
-        const categoryid = req.body.categoryid;
+        const categoryid = req.body.category;
 
         if (!title || title === "")
             return res.status(400).send({ status: false, message: 'Başlık boş olamaz.', data: null });
@@ -55,6 +55,9 @@ router.post('/product-add', checkAuth, async (req, res) => {
             return res.status(400).send({ status: false, message: 'Görsel boş olamaz.', data: null });
         if (!price || price === "")
             return res.status(400).send({ status: false, message: 'Fiyat boş olamaz.', data: null });
+        if (!isNumber(price)) {
+            return res.status(400).send({ status: false, message: 'Fiyat sayı olmalıdır.', data: null });
+        }
 
         // id tipi kontrol et
         if (!mongoose.Types.ObjectId.isValid(categoryid))
@@ -80,7 +83,7 @@ router.post('/product-add', checkAuth, async (req, res) => {
                 price: price,
                 category: categoryid,
                 createdAt: new Date(),
-                createdId: req.user.id,
+                createdId: null,
                 updatedAt: null,
                 updatedId: null,
             }
@@ -90,7 +93,7 @@ router.post('/product-add', checkAuth, async (req, res) => {
         await value.save();
 
         // başarılı olarak dönüt ver
-        res.status(201).send({ status: true, message: 'Ürün Eklendi.', data: value });
+        res.status(200).send({ status: true, message: 'Ürün Eklendi.', data: value });
     } catch (err) {
         // hata alınması durumunda başarısız olarak dönüt ver
         res.status(500).send({ status: false, message: `Ürün kaydı sırasında bir hata oluştu. Hata: ${err}`, data: null });
@@ -102,15 +105,15 @@ router.post('/product-add', checkAuth, async (req, res) => {
  */
 router.post('/product-update', checkAuth, async (req, res) => {
     try {
-        if (!req.user.isAdmin)
-            return res.status(400).send({ status: false, message: 'Sadece admin yetkisi silebilir.', data: null });
+        // if (!req.user.isAdmin)
+        //     return res.status(400).send({ status: false, message: 'Sadece admin yetkisi silebilir.', data: null });
 
         // string ifadeyi formatla
         const title = formatString(req.body.title);
-        const _id = req.body.id;
+        const _id = req.body._id;
         const img = req.body.img;
         const price = req.body.price;
-        const categoryid = req.body.categoryid;
+        const categoryid = req.body.category._id;
 
         if (!title || title === "")
             return res.status(400).send({ status: false, message: 'Başlık boş olamaz.', data: null });
@@ -147,7 +150,7 @@ router.post('/product-update', checkAuth, async (req, res) => {
         product.price = price;
         product.categoryid = categoryid;
         product.updatedAt = new Date();
-        product.updatedId = req.user.id;
+        product.updatedId = null;
 
         // kaydı güncelle
         await product.save();
@@ -164,8 +167,8 @@ router.post('/product-update', checkAuth, async (req, res) => {
  */
 router.post('/product-delete', checkAuth, async (req, res) => {
     try {
-        if (!req.user.isAdmin)
-            return res.status(400).send({ status: false, message: 'Sadece admin yetkisi silebilir.', data: null });
+        // if (!req.user.isAdmin)
+        //     return res.status(400).send({ status: false, message: 'Sadece admin yetkisi silebilir.', data: null });
 
         const _id = req.body.id;
 
@@ -181,7 +184,7 @@ router.post('/product-delete', checkAuth, async (req, res) => {
         // kaydı düzenle
         product.isActive = false;
         product.updatedAt = new Date();
-        product.updatedId = req.user.id;
+        product.updatedId = null;
 
         // kaydı güncelle
         await product.save();

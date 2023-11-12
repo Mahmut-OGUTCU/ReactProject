@@ -6,6 +6,7 @@ import CartPage from "./pages/CartPage";
 import BillPage from "./pages/BillPage";
 import CustomerPage from "./pages/CustomerPage";
 import StatisticPage from "./pages/StatisticPage";
+import Products from "./pages/Products";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/bills" element={<BillPage />} />
         <Route path="/customers" element={<CustomerPage />} />
         <Route path="/statistic" element={<StatisticPage />} />
+        <Route path="/products" element={<Products />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

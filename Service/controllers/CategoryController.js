@@ -3,7 +3,7 @@ const Category = require('../models/Category');
 const express = require('express');
 const router = express.Router();
 const mongoose = require("mongoose");
-const { formatString } = require('../utils');
+const { formatString } = require('../helper/utils');
 const checkAuth = require('../middleware');
 
 /**
@@ -60,7 +60,7 @@ router.post('/category-add', checkAuth, async (req, res) => {
             {
                 title: title,
                 createdAt: new Date(),
-                createdId: req.user.id,
+                createdId: null,
                 updatedAt: null,
                 updatedId: null,
             }
@@ -70,7 +70,7 @@ router.post('/category-add', checkAuth, async (req, res) => {
         await value.save();
 
         // başarılı olarak dönüt ver
-        res.status(201).send({ status: true, message: 'Kategori Eklendi.', data: value });
+        res.status(200).send({ status: true, message: 'Kategori Eklendi.', data: value });
     } catch (err) {
         // hata alınması durumunda başarısız olarak dönüt ver
         res.status(500).send({ status: false, message: `Kategori kaydı sırasında bir hata oluştu. Hata: ${err}`, data: null });
@@ -106,7 +106,7 @@ router.post('/category-update', checkAuth, async (req, res) => {
         // kaydı düzenle
         category.title = title;
         category.updatedAt = new Date();
-        category.updatedId = req.user.id;
+        category.updatedId = null;
 
         // kaydı güncelle
         await category.save();
@@ -123,8 +123,10 @@ router.post('/category-update', checkAuth, async (req, res) => {
  */
 router.post('/category-delete', checkAuth, async (req, res) => {
     try {
-        if (!req.user.isAdmin)
-            return res.status(400).send({ status: false, message: 'Sadece admin yetkisi silebilir.', data: null });
+        // if (!req.user.isAdmin)
+        //     return res.status(400).send({ status: false, message: 'Sadece admin yetkisi silebilir.', data: null });
+
+        const _id = req.body.id;
 
         // id tipi kontrol et
         if (!mongoose.Types.ObjectId.isValid(_id))
@@ -138,7 +140,7 @@ router.post('/category-delete', checkAuth, async (req, res) => {
         // kaydı düzenle
         category.isActive = false;
         category.updatedAt = new Date();
-        category.updatedId = req.user.id;
+        category.updatedId = null;
 
         // kaydı güncelle
         await category.save();
