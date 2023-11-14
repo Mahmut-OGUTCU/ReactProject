@@ -97,7 +97,7 @@ const ProductsEditModal = ({
             placeholder="Kategori"
             optionFilterProp="children"
             filterOption={(input, option) =>
-              (option?.label ?? "").includes(input)
+              (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
             }
             filterSort={(optionA, optionB) =>
               (optionA?.label ?? "")
