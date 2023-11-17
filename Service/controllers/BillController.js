@@ -45,7 +45,7 @@ router.post('/bill-add', checkAuth, async (req, res) => {
         let customerPhoneNumber = isValidPhoneNumber(req.body.customerPhoneNumber)
         customerPhoneNumber = phoneNumberFormat(customerPhoneNumber)
         const paymentMode = formatString(req.body.paymentMode)
-        const cardItems = req.body.cardItems
+        const cartItems = req.body.cartItems
         const subTotal = req.body.subTotal;
         const tax = req.body.tax;
         const totalAmount = req.body.totalAmount;
@@ -56,7 +56,7 @@ router.post('/bill-add', checkAuth, async (req, res) => {
             return res.status(400).send({ status: false, message: 'Müşteri numarası boş olamaz.', data: null });
         if (!paymentMode || paymentMode === "")
             return res.status(400).send({ status: false, message: 'Ödeme yöntemi boş olamaz.', data: null });
-        if (!cardItems || cardItems.length < 1)
+        if (!cartItems || cartItems.length < 1)
             return res.status(400).send({ status: false, message: 'Nesne boş olamaz.', data: null });
         if (!subTotal || subTotal === "")
             return res.status(400).send({ status: false, message: 'Ara toplam boş olamaz.', data: null });
@@ -71,7 +71,7 @@ router.post('/bill-add', checkAuth, async (req, res) => {
                 customerName: customerName,
                 customerPhoneNumber: customerPhoneNumber,
                 paymentMode: paymentMode,
-                cardItems: cardItems,
+                cartItems: cartItems,
                 subTotal: subTotal,
                 tax: tax,
                 totalAmount: totalAmount,
@@ -104,7 +104,7 @@ router.post('/bill-update', checkAuth, async (req, res) => {
         let customerPhoneNumber = isValidPhoneNumber(req.body.customerPhoneNumber)
         customerPhoneNumber = phoneNumberFormat(customerPhoneNumber)
         const paymentMode = formatString(req.body.paymentMode)
-        const cardItems = req.body.cardItems
+        const cartItems = req.body.cartItems
         const subTotal = req.body.subTotal;
         const tax = req.body.tax;
         const totalAmount = req.body.totalAmount;
@@ -115,7 +115,7 @@ router.post('/bill-update', checkAuth, async (req, res) => {
             return res.status(400).send({ status: false, message: 'Müşteri numarası boş olamaz.', data: null });
         if (!paymentMode || paymentMode === "")
             return res.status(400).send({ status: false, message: 'Ödeme yöntemi boş olamaz.', data: null });
-        if (!cardItems || cardItems.length < 1)
+        if (!cartItems || cartItems.length < 1)
             return res.status(400).send({ status: false, message: 'Nesne boş olamaz.', data: null });
         if (!subTotal || subTotal === "")
             return res.status(400).send({ status: false, message: 'Ara toplam boş olamaz.', data: null });
@@ -134,7 +134,7 @@ router.post('/bill-update', checkAuth, async (req, res) => {
         bill.customerName = customerName;
         bill.customerPhoneNumber = customerPhoneNumber;
         bill.paymentMode = paymentMode;
-        bill.cardItems = cardItems;
+        bill.cartItems = cartItems;
         bill.subTotal = subTotal;
         bill.tax = tax;
         bill.totalAmount = totalAmount;

@@ -14,8 +14,8 @@ const ProductsTable = ({
 
   const handleEdit = (record) => {
     console.log("Düzenle:", record);
-    setSelectedRecord(record); // Set the selected record
-    setIsEditModalOpen(true); // Open the modal
+    setSelectedRecord(record);
+    setIsEditModalOpen(true);
   };
 
   const handleDelete = (record) => {

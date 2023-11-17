@@ -1,6 +1,15 @@
 import { Form, Input, Modal, Select, Card, Button } from "antd";
+import { useSelector } from "react-redux";
 
-const CreateBill = ({ isModalOpen, setIsModalOpen }) => {
+const CreateBill = ({ isModalOpen, setIsModalOpen, addRecord }) => {
+  const cart = useSelector((state) => state.cart);
+  const [form] = Form.useForm();
+
+  const addBill = (record) => {
+    addRecord(record);
+    form.resetFields();
+    setIsModalOpen(false);
+  };
   return (
     <Modal
       title="Yeni Fatura Oluştur"
@@ -10,14 +19,14 @@ const CreateBill = ({ isModalOpen, setIsModalOpen }) => {
         setIsModalOpen(false);
       }}
     >
-      <Form layout="vertical">
+      <Form form={form} layout="vertical" onFinish={addBill}>
         <Form.Item
           label="Müşteri Adı"
-          name={""}
+          name="customerName"
           rules={[
             {
               required: true,
-              message: "Not null",
+              message: "Müşteri adı boş geçilemez.",
             },
           ]}
         >
@@ -25,11 +34,11 @@ const CreateBill = ({ isModalOpen, setIsModalOpen }) => {
         </Form.Item>
         <Form.Item
           label="Tel No"
-          name={""}
+          name="customerPhoneNumber"
           rules={[
             {
               required: true,
-              message: "Not null",
+              message: "Telefon numarası boş geçilemez.",
             },
           ]}
         >
@@ -37,11 +46,11 @@ const CreateBill = ({ isModalOpen, setIsModalOpen }) => {
         </Form.Item>
         <Form.Item
           label="Ödeme Yöntemi"
-          name={""}
+          name="paymentMode"
           rules={[
             {
               required: true,
-              message: "Not null",
+              message: "Ödeme yöntemi boş geçilemez.",
             },
           ]}
         >
@@ -53,24 +62,31 @@ const CreateBill = ({ isModalOpen, setIsModalOpen }) => {
         <Card>
           <div className="flex justify-between">
             <span>Ara Toplam</span>
-            <span>549.00t</span>
+            <span>{cart.total > 0 ? cart.total.toFixed(2) + "₺" : "-"}</span>
           </div>
           <div className="flex justify-between my-2">
-            <span>KDV Toplam %8</span>
-            <span className="text-red-600">+43.92t</span>
+            <span>KDV Toplam %{cart.tax}</span>
+            <span className="text-red-600">
+              {cart.total + (cart.total * cart.tax) / 100 > 0
+                ? "+" + ((cart.total * cart.tax) / 100).toFixed(2) + "₺"
+                : "-"}
+            </span>
           </div>
           <div className="flex justify-between">
             <b>Toplam</b>
-            <b>592.92t</b>
+            <b>
+              {" "}
+              {cart.total + (cart.total * cart.tax) / 100 > 0
+                ? (cart.total + (cart.total * cart.tax) / 100).toFixed(2) + "₺"
+                : "-"}
+            </b>
           </div>
           <div className="flex justify-end">
             <Button
               type="primary"
               className="mt-2"
-              onClick={() => {
-                setIsModalOpen(true);
-              }}
               htmlType="submit"
+              disabled={cart.cartItems.length === 0}
             >
               Sipariş Oluştur
             </Button>
