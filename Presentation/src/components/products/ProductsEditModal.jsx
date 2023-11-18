@@ -20,7 +20,6 @@ const ProductsEditModal = ({
         category: selectedRecord.category._id,
       });
     }
-    console.log(selectedRecord);
   }, [selectedRecord, form]);
 
   const handleUpdate = () => {
@@ -30,7 +29,6 @@ const ProductsEditModal = ({
       _id: updatedData.category,
       title: categories.find((cat) => cat._id === updatedData.category)?.title, // Assuming categories is an array of all categories
     };
-    console.log("updatedData", updatedData);
     editRecord(updatedData);
     setIsEditModalOpen(false);
   };

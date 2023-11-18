@@ -2,18 +2,15 @@ import { useEffect, useState } from "react";
 import Header from "../components/header/Header";
 import ProductsTable from "../components/products/ProductsTable";
 import { appAxios } from "../helper/appAxios";
-import { message } from "antd";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const editRecord = (record) => {
-    console.log("axios öncesi products:", products);
     appAxios
       .post("product/product-update", record)
       .then(async (response) => {
         if (response.data.status) {
-          message.success(response.data.message);
           setProducts(
             products.map((item) => {
               if (item._id === record._id) {
@@ -33,7 +30,6 @@ const Products = () => {
       .catch((err) => {
         console.error(err);
       });
-    console.log("axios sonrası products:", products);
   };
 
   const deleteRecord = (id) => {
@@ -41,7 +37,6 @@ const Products = () => {
       .post("product/product-delete", { id: id })
       .then(async (response) => {
         if (response.data.status) {
-          message.success(response.data.message);
           setProducts(products.filter((item) => item._id !== id));
         }
       })

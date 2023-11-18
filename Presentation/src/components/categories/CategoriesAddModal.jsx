@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal, message } from "antd";
+import { Button, Form, Input, Modal } from "antd";
 import { appAxios } from "../../helper/appAxios";
 
 export const CategoriesAddModal = ({
@@ -14,12 +14,11 @@ export const CategoriesAddModal = ({
         .post("category/category-add", values)
         .then(async (response) => {
           if (response.data.status) {
-            message.success(response.data.message);
             form.resetFields();
             setCategories([
               ...categories,
               {
-                _id: Math.random(),
+                _id: response.data.data._id,
                 title: values.title,
               },
             ]);

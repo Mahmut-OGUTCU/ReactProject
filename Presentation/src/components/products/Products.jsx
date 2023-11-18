@@ -4,13 +4,15 @@ import ProductItem from "./ProductsItem";
 import ProductsAddModal from "./ProductsAddModal";
 import { useState } from "react";
 
-const Products = ({ products, setProducts, categories }) => {
+const Products = ({ products, setProducts, categories, filtered, search }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   return (
     <div className="products-wrapper grid grid-cols-card gap-4">
-      {products.map((item) => (
-        <ProductItem item={item} setProducts={setProducts} key={item._id} />
-      ))}
+      {filtered
+        .filter((val) => val.title.toLowerCase().includes(search))
+        .map((item) => (
+          <ProductItem item={item} setProducts={setProducts} key={item._id} />
+        ))}
       <div
         className="product-item border hover:shadow-lg cursor-pointer transition-all select-none bg-purple-800 flex justify-center items-center hover:opacity-90 min-h-[150px]"
         onClick={() => setIsAddModalOpen(true)}

@@ -15,7 +15,6 @@ const CategoriesEditModal = ({
           .post("category/category-delete", { id: id })
           .then(async (response) => {
             if (response.data.status) {
-              message.success(response.data.message);
               setCategories(categories.filter((item) => item._id !== id));
               setEditingRow({});
             }
@@ -24,7 +23,6 @@ const CategoriesEditModal = ({
             console.error(err);
           });
       } catch (error) {
-        message.error("Bir şeyler yanlış gitti.");
         console.log(error);
       }
     }
@@ -32,32 +30,34 @@ const CategoriesEditModal = ({
 
   const onFinish = (values) => {
     try {
-      console.log(values);
-      appAxios
-        .post("category/category-update", { ...values, id: editingRow._id })
-        .then(async (response) => {
-          if (response.data.status) {
-            message.success(response.data.message);
-            setCategories(
-              categories.map((item) => {
-                if (item._id === editingRow._id) {
-                  return { ...item, title: values.title };
-                }
-                return item;
-              })
-            );
-            setEditingRow({});
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      if (editingRow._id) {
+        appAxios
+          .post("category/category-update", { ...values, id: editingRow._id })
+          .then(async (response) => {
+            if (response.data.status) {
+              setCategories(
+                categories.map((item) => {
+                  if (item._id === editingRow._id) {
+                    return { ...item, title: values.title };
+                  }
+                  return item;
+                })
+              );
+              setEditingRow({});
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      } else {
+        message.error("Lütfen ilk olarak bir kayıt düzenleyiniz.");
+      }
     } catch (err) {
-      message.error("Kategori güncellenirken hata oluştu.");
       console.log(err);
     }
   };
   const [editingRow, setEditingRow] = useState({});
+
   const columns = [
     {
       title: "Kategori Adı",

@@ -84,11 +84,11 @@ router.post('/login', async (req, res) => {
         // kullanıcıyı getir
         const user = await User.findOne({ email: email, isActive: true })
         if (!user)
-            return res.status(400).send({ status: false, message: 'e-posta veya şfire hatalı.', data: null });
+            return res.status(400).send({ status: false, message: 'e-posta veya şifre hatalı.', data: null });
 
         // Şifre doğrulaması yap
         if (!await bcrypt.compare(password, user.password)) {
-            return res.status(400).send({ status: false, message: 'e-posta veya şfire hatalı.', data: null });
+            return res.status(400).send({ status: false, message: 'e-posta veya şifre hatalı.', data: null });
         }
 
         // Kullanıcı başarılı bir şekilde giriş yaptı, JWT oluştur
@@ -100,7 +100,7 @@ router.post('/login', async (req, res) => {
         // kaydı güncelle
         await user.save();
 
-        res.status(200).send({ status: true, message: 'Giriş başarılı.', data: token });
+        res.status(200).send({ status: true, message: 'Giriş başarılı.', data: { token: token, email: user.email, kullanici: user.firstname + ' ' + user.lastname } });
 
     } catch (err) {
         res.status(500).send(`Verileri getirme sırasında bir hata oluştu. Hata: ${err}`);

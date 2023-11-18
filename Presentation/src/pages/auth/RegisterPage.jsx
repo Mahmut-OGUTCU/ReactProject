@@ -2,17 +2,36 @@ import { Button, Form, Input } from "antd";
 import { Link } from "react-router-dom";
 import { Carousel } from "antd";
 import AuthCarousel from "../../components/auth/AuthCarousel";
+import { useNavigate } from "react-router-dom";
+import { appAxios } from "../../helper/appAxios";
+import { useState } from "react";
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const onFinish = (value) => {
+    setLoading(true);
+    appAxios
+      .post("auth/register", value)
+      .then(async (response) => {
+        if (response.data.status) {
+          navigate("/login");
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
   return (
     <div className="h-screen">
       <div className="flex justify-between h-full">
         <div className="xl:px-20 px-10 w-full flex flex-col h-full justify-center relative">
           <h1 className="text-center text-5xl font-bold mb-2">LOGO</h1>
-          <Form layout="vertical">
+          <Form layout="vertical" onFinish={onFinish}>
             <Form.Item
               label="Kullanıcı Adı"
-              name={"username"}
+              name={"firstname"}
               rules={[
                 {
                   required: true,
@@ -23,8 +42,20 @@ const RegisterPage = () => {
               <Input />
             </Form.Item>
             <Form.Item
+              label="Kullanıcı Soyadı"
+              name={"lastname"}
+              rules={[
+                {
+                  required: true,
+                  message: "Kullanıcı Soyadı Boş Bırakılamaz!",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
               label="e-Posta"
-              name={"eposta"}
+              name={"email"}
               rules={[
                 {
                   required: true,
@@ -55,14 +86,16 @@ const RegisterPage = () => {
                   required: true,
                   message: "Şifre Tekrarı Boş Bırakılamaz!",
                 },
-                ({ getFieldValue })=> ({
+                ({ getFieldValue }) => ({
                   validator(_, value) {
-                    if (!value || getFieldValue('password') === value) {
+                    if (!value || getFieldValue("password") === value) {
                       return Promise.resolve();
                     }
-                    return Promise.reject(new Error('Girilen şifre ile uyuşmamaktadır.'))
-                  }
-                })
+                    return Promise.reject(
+                      new Error("Girilen şifre ile uyuşmamaktadır.")
+                    );
+                  },
+                }),
               ]}
             >
               <Input.Password />
@@ -73,6 +106,7 @@ const RegisterPage = () => {
                 htmlType="submit"
                 className="w-full"
                 size="large"
+                loading={loading}
               >
                 Kaydol
               </Button>

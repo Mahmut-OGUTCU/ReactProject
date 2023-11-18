@@ -1,5 +1,6 @@
 // appAxios.js
 import axios from "axios";
+import { message } from "antd";
 
 export const appAxios = axios.create({
   baseURL: "http://localhost:5000/api/",
@@ -26,4 +27,17 @@ appAxios.interceptors.request.use(
     return config;
   },
   (error) => Promise.reject(error)
+);
+
+appAxios.interceptors.response.use(
+  (response) => {
+    if (response.data.message !== "Kayıt(lar) listelendi.") {
+      message.success(response.data.message);
+    }
+    return response;
+  },
+  (error) => {
+    message.error(error.response.data.message);
+    return Promise.reject(error);
+  }
 );

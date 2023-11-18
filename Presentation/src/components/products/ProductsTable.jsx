@@ -13,14 +13,12 @@ const ProductsTable = ({
   const [selectedRecord, setSelectedRecord] = useState(null);
 
   const handleEdit = (record) => {
-    console.log("Düzenle:", record);
     setSelectedRecord(record);
     setIsEditModalOpen(true);
   };
 
   const handleDelete = (record) => {
     if (window.confirm("Emin misiniz?")) {
-      console.log("Sil", record);
       if (deleteRecord) {
         deleteRecord(record._id);
       }

@@ -2,17 +2,46 @@ import { Button, Checkbox, Form, Input } from "antd";
 import { Link } from "react-router-dom";
 import { Carousel } from "antd";
 import AuthCarousel from "../../components/auth/AuthCarousel";
+import { appAxios } from "../../helper/appAxios";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const onFinish = (value) => {
+    setLoading(true);
+    appAxios
+      .post("auth/login", value)
+      .then(async (response) => {
+        if (response.data.status) {
+          localStorage.setItem("token", response.data.data.token);
+          localStorage.setItem("email", response.data.data.email);
+          localStorage.setItem("kullanici", response.data.data.kullanici);
+          navigate("/");
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
+
   return (
     <div className="h-screen">
       <div className="flex justify-between h-full">
         <div className="xl:px-20 px-10 w-full flex flex-col h-full justify-center relative">
           <h1 className="text-center text-5xl font-bold mb-2">LOGO</h1>
-          <Form layout="vertical">
+          <Form
+            layout="vertical"
+            onFinish={onFinish}
+            initialValues={{
+              remember: false,
+            }}
+          >
             <Form.Item
               label="e-Posta"
-              name={"eposta"}
+              name={"email"}
               rules={[
                 {
                   required: true,
@@ -46,6 +75,7 @@ const LoginPage = () => {
                 htmlType="submit"
                 className="w-full"
                 size="large"
+                loading={loading}
               >
                 Giriş Yap
               </Button>

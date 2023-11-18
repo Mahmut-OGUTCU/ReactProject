@@ -6,7 +6,7 @@ const ProductsItem = ({ item }) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(addProduct({ ...item, quantity: 1 }));
+    dispatch(addProduct({ ...item, quantity: 1, categoryTitle: item.category.title }));
     message.success("Ürün Sepete Eklendi.");
   };
   return (

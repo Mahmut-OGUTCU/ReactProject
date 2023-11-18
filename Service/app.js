@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const mongoose = require("mongoose")
-
+const mongoose = require("mongoose");
+const logger = require("morgan");
 const config = require('./config');
 
 const port = 5000;
@@ -15,8 +15,9 @@ const corsOptions = {
   optionsSuccessStatus: 204,
 };
 
-app.use(cors(corsOptions));
 app.use(express.json());
+app.use(cors(corsOptions));
+app.use(logger("dev"))
 
 app.listen(port, () => {
   console.log(`Sunucu ${port} portunda çalışıyor.`);

@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal, Select, message, InputNumber } from "antd";
+import { Button, Form, Input, Modal, Select, InputNumber } from "antd";
 import { appAxios } from "../../helper/appAxios";
 
 const ProductsAddModal = ({
@@ -9,21 +9,22 @@ const ProductsAddModal = ({
   categories,
 }) => {
   const onFinish = (values) => {
-    console.log("onFinish", values);
     try {
       appAxios
         .post("product/product-add", values)
         .then(async (response) => {
           if (response.data.status) {
-            message.success(response.data.message);
             form.resetFields();
             setProducts([
               ...products,
               {
-                _id: Math.random(),
+                _id: response.data.data._id,
                 title: values.title,
                 img: values.img,
                 price: values.price,
+                category: {
+                  _id: response.data.data.category,
+                },
               },
             ]);
           }

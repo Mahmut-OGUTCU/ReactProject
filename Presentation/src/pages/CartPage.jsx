@@ -1,5 +1,5 @@
-import { Table, Card, Button, message, Popconfirm } from "antd";
-import { useState } from "react";
+import { Table, Card, Button, message, Input, Popconfirm, Space } from "antd";
+import { useRef, useState } from "react";
 import Header from "../components/header/Header";
 import CreateBill from "../components/cart/CreateBill";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,12 +11,132 @@ import {
 import { increase, decrease, deleteCart, reset } from "../redux/cart/CartSlice";
 import { appAxios } from "../helper/appAxios";
 import { useNavigate } from "react-router-dom";
+import Highlighter from "react-highlight-words";
+import { SearchOutlined } from "@ant-design/icons";
 
 const CartPages = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef(null);
+
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText("");
+  };
+
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+      close,
+    }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: "block",
+          }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({
+                closeDropdown: false,
+              });
+              setSearchText(selectedKeys[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            close
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? "#1890ff" : undefined,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{
+            backgroundColor: "#ffc069",
+            padding: 0,
+          }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ""}
+        />
+      ) : (
+        text
+      ),
+  });
 
   const addRecord = (record) => {
     const payload = {
@@ -32,12 +152,10 @@ const CartPages = () => {
         img: item.img,
       })),
     };
-    console.log("CartPage record:", payload);
     appAxios
       .post("bill/bill-add", payload)
       .then(async (response) => {
         if (response.data.status) {
-          message.success(response.data.message);
           dispatch(reset());
           navigate("/bills");
         }
@@ -65,18 +183,21 @@ const CartPages = () => {
       title: "Ürün Adı",
       dataIndex: "title",
       key: "title",
+      ...getColumnSearchProps("title"),
     },
     {
       title: "Kategori",
-      dataIndex: "category",
-      key: "category",
-      render: (text, record) => <p>{record.category.title}</p>,
+      dataIndex: "categoryTitle",
+      key: "categoryTitle",
+      // render: (text, record) => <p>{record.category.title}</p>,
+      ...getColumnSearchProps("categoryTitle"),
     },
     {
       title: "Ürün Fiyatı",
       dataIndex: "price",
       key: "price",
       render: (text, record) => <p>{record.price.toFixed(2)}₺</p>,
+      sorter: (a, b) => a.price - b.price,
     },
     {
       title: "Ürün Adedi",
@@ -152,10 +273,13 @@ const CartPages = () => {
           bordered
           pagination={false}
           rowKey={"_id"}
+          scroll={{
+            x: 750,
+          }}
         />
         ;
         <div className="card-total flex justify-end">
-          <Card className="w-72">
+          <Card className="w-72 min-w-[250px]">
             <div className="flex justify-between">
               <span>Ara Toplam</span>
               <span>{cart.total > 0 ? cart.total.toFixed(2) + "₺" : "-"}</span>
