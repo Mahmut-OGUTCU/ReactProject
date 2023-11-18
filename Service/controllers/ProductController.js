@@ -8,47 +8,58 @@ const { formatString, isNumber } = require('../helper/utils');
 const checkAuth = require('../middleware');
 
 /**
- * Get All Product Values Process
+ * Ürün kayıtlarını getiren işlev
+ * id parametresi gelmiş ise ilgili tek kayıt döner
+ * id parametresi gelmemiş ise tüm kayıtlar döner
  */
 router.post('/product-get', checkAuth, async (req, res) => {
     try {
+        // gelen id değerini al
         const _id = req.body.id;
 
         if (_id !== "" && _id) {
-            // id tipi kontrol et
+            // eğer id değeri varsa tek kayıt getir
             if (!mongoose.Types.ObjectId.isValid(_id))
+                // id tipi kontrol et
                 return res.status(400).send({ status: false, message: 'Geçerli bir ürün id giriniz.', data: null });
 
-            // Eğer "_id" değeri varsa ilgili kaydı getir
+            // Eğer "_id" değeri varsa ilgili kaydı getir ve category title'ı da al
             const value = await Product.findOne({ _id: _id, isActive: true })
                 .populate('category', 'title');
 
             if (!value)
+                // gelen id veritabanında eşleşmediysa
                 return res.status(400).send({ status: false, message: 'Geçersiz bir değer girildi.', data: null });
 
-            res.status(200).send({ status: true, message: 'Kayıt listelendi.', data: value });
+            // başarılı bir şekilde dönüt ver
+            res.status(200).send({ status: true, message: 'Kayıt(lar) listelendi.', data: value });
         } else {
-            // "_id" değeri yoksa, tüm kayıtları getirin
+            // "_id" değeri yoksa, tüm kayıtları getirin ve category title'ı da al
             const values = await Product.find({ isActive: true })
                 .populate('category', 'title');
+
+            // başarılı bir şekilde dönüt ver
             res.status(200).send({ status: true, message: 'Kayıt(lar) listelendi.', data: values });
         }
     } catch (err) {
+        // herhangi bir hata ile karşılaşılması durumunda
         res.status(500).send(`Verileri getirme sırasında bir hata oluştu. Hata: ${err}`);
     }
 });
 
 /**
- * Add Product Process
+ * Ürün kaydı işlevi
+ * kayıt ekleme sonrası eklenen kaydı geri dön
  */
 router.post('/product-add', checkAuth, async (req, res) => {
     try {
-        // string ifadeyi formatla
+        // gelen değerleri formatlayarak al
         const title = formatString(req.body.title);
         const img = req.body.img;
         const price = req.body.price;
         const categoryid = req.body.category;
 
+        // gelen değerlerin doğrulamalarının kontrolü
         if (!title || title === "")
             return res.status(400).send({ status: false, message: 'Başlık boş olamaz.', data: null });
         if (!img || img === "")
@@ -63,27 +74,23 @@ router.post('/product-add', checkAuth, async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(categoryid))
             return res.status(400).send({ status: false, message: 'Geçerli bir kategori id giriniz.', data: null });
 
-        // title alanını unique olarak kontrol et
+        // var olan bir kategoriden kayıt mı yapılıyor kontrolü
         if (!(await Category.findOne({ _id: categoryid, isActive: true })))
             return res.status(400).send({ status: false, message: 'Kategori bulunamadı.', data: null });
-
-        // title boşsa veya gönderilmemişse hata ver
-        if (!title)
-            return res.status(400).send({ status: false, message: 'Başlık alanı boş bırakılamaz.', data: null });
 
         // title alanını unique olarak kontrol et
         if (await Product.findOne({ title: title, isActive: true }))
             return res.status(400).send({ status: false, message: 'Bu başlık zaten kullanılmaktadır. Lütfen başka bir başlık deneyin.', data: null });
 
-        // kaydı düzenle
+        // gelen değerlere göre Fatura kaydı oluştur
         const value = new Product(
             {
                 title: title,
                 img: img,
                 price: price,
                 category: categoryid,
-                createdAt: new Date(),
-                createdId: null,
+                createdAt: new Date(), // kaydın anlık olarak kayıt zamanını tut
+                createdId: req.user.id, // kaydı ekleyen kullanıcın id'sini middleware sayesinde tut
                 updatedAt: null,
                 updatedId: null,
             }
@@ -101,20 +108,22 @@ router.post('/product-add', checkAuth, async (req, res) => {
 });
 
 /**
- * Update Product Process
+ * Ürün güncelleme işlevi
+ * kayıt güncelleme sonrası eklenen kaydı geri dön
  */
 router.post('/product-update', checkAuth, async (req, res) => {
     try {
         // if (!req.user.isAdmin)
         //     return res.status(400).send({ status: false, message: 'Sadece admin yetkisi silebilir.', data: null });
 
-        // string ifadeyi formatla
+        // gelen değerleri formatlayarak al
         const title = formatString(req.body.title);
         const _id = req.body._id;
         const img = req.body.img;
         const price = req.body.price;
         const categoryid = req.body.category._id;
 
+        // gelen değerlerin doğrulamalarının kontrolü
         if (!title || title === "")
             return res.status(400).send({ status: false, message: 'Başlık boş olamaz.', data: null });
         if (!img || img === "")
@@ -126,35 +135,32 @@ router.post('/product-update', checkAuth, async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(categoryid))
             return res.status(400).send({ status: false, message: 'Geçerli bir kategori id giriniz.', data: null });
 
-        // title alanını unique olarak kontrol et
+        // var olan bir kategoriden kayıt mı yapılıyor kontrolü
         if (!(await Category.findOne({ _id: categoryid, isActive: true })))
             return res.status(400).send({ status: false, message: 'Kategori bulunamadı.', data: null });
-
-        // title boşsa veya gönderilmemişse hata ver
-        if (!title)
-            return res.status(400).send({ status: false, message: 'Başlık alanı boş bırakılamaz.', data: null });
 
         // title alanını unique olarak kontrol et
         if (await Product.findOne({ title: title, _id: { $ne: _id }, isActive: true }))
             return res.status(400).send({ status: false, message: 'Bu başlık zaten kullanılmaktadır. Lütfen başka bir başlık deneyin.', data: null });
 
-
-        // gelen id değerini kontrol et
+        // gelen id değeriyle ilgili kaydı güncellemek üzere bul
         const product = await Product.findOne({ _id: _id, isActive: true });
         if (!product)
+            // gelen id veritabanında eşleşmediyse
             return res.status(400).send({ status: false, message: 'Ürün bulunamadı.', data: null });
 
-        // kaydı düzenle
+        // veritabanındaki kaydı yeni değerler ile güncelle
         product.title = title;
         product.img = img;
         product.price = price;
-        product.categoryid = categoryid;
-        product.updatedAt = new Date();
-        product.updatedId = null;
+        product.category = categoryid;
+        product.updatedAt = new Date(); // kaydın anlık olarak kayıt zamanını tut
+        product.updatedId = req.user.id; // kaydı ekleyen kullanıcın id'sini middleware sayesinde tut
 
         // kaydı güncelle
         await product.save();
 
+        // başarılı olarak dönüt ver
         res.status(200).send({ status: true, message: 'Ürün güncellendi.', data: product });
     } catch (err) {
         // hata alınması durumunda başarısız olarak dönüt ver
@@ -163,32 +169,36 @@ router.post('/product-update', checkAuth, async (req, res) => {
 });
 
 /**
- * Delete Product Process
+ * Ürün silme işlevi
+ * kayıt silme sonrası eklenen kaydı geri dön
  */
 router.post('/product-delete', checkAuth, async (req, res) => {
     try {
-        // if (!req.user.isAdmin)
-        //     return res.status(400).send({ status: false, message: 'Sadece admin yetkisi silebilir.', data: null });
+        if (!req.user.isAdmin)
+            return res.status(400).send({ status: false, message: 'Sadece admin yetkisi silebilir.', data: null });
 
+        // gelen id değerini al
         const _id = req.body.id;
 
         // id tipi kontrol et
         if (!mongoose.Types.ObjectId.isValid(_id))
             return res.status(400).send({ status: false, message: 'Geçerli bir ürün id giriniz.', data: null });
 
-        // gelen id değerini kontrol et
+        // gelen id değeriyle ilgili kaydı silmek üzere bul
         const product = await Product.findOne({ _id: _id, isActive: true });
         if (!product)
+            // gelen id veritabanında eşleşmediyse
             return res.status(400).send({ status: false, message: 'Ürün bulunamadı.', data: null });
 
         // kaydı düzenle
-        product.isActive = false;
-        product.updatedAt = new Date();
-        product.updatedId = null;
+        product.isActive = false; // silmek için aktif hal false yapılır
+        product.updatedAt = new Date(); // kaydın anlık olarak kayıt zamanını tut
+        product.updatedId = req.user.id; // kaydı ekleyen kullanıcın id'sini middleware sayesinde tut
 
         // kaydı güncelle
         await product.save();
 
+        // başarılı olarak dönüt ver
         res.status(200).send({ status: true, message: 'Ürün silindi.', data: product });
     } catch (err) {
         // hata alınması durumunda başarısız olarak dönüt ver

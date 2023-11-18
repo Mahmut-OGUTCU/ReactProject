@@ -3,7 +3,7 @@ const cors = require('cors');
 const app = express();
 const mongoose = require("mongoose");
 const logger = require("morgan");
-const config = require('./config');
+require('dotenv').config();
 
 const port = 5000;
 
@@ -23,9 +23,10 @@ app.listen(port, () => {
   console.log(`Sunucu ${port} portunda çalışıyor.`);
 });
 
+const mongoURI = process.env.MONGO_URI;
 const conn = async () => {
   try {
-    await mongoose.connect(config.dbConfig.url);
+    await mongoose.connect(mongoURI);
     console.log("MongoDB'ye başarıyla bağlandı!");
   } catch (err) {
     console.log(err);

@@ -13,12 +13,13 @@ const checkAuth = require('../middleware');
  */
 router.post('/register', async (req, res) => {
     try {
-        // string ifadeyi formatla
+        // gelen değerleri formatlayarak al
         const firstname = formatString(req.body.firstname);
         const lastname = formatString(req.body.lastname)
         const email = req.body.email
         const password = req.body.password.trim()
 
+        // gelen değerlerin doğrulamalarının kontrolü
         if (!firstname || firstname === "")
             return res.status(400).send({ status: false, message: 'Kullanıcı adı boş olamaz.', data: null });
         if (!lastname || lastname === "")
@@ -32,14 +33,14 @@ router.post('/register', async (req, res) => {
         if (!isValidEmail(email))
             return res.status(400).send({ status: false, message: 'Geçersiz bir e-posta adresi.', data: null });
 
-        // title alanını unique olarak kontrol et
+        // email alanını unique olarak kontrol et
         if (await User.findOne({ email: email, isActive: true }))
             return res.status(400).send({ status: false, message: 'Bu e-posta zaten kullanılmaktadır. Lütfen başka bir e-posta deneyin.', data: null });
 
         // password hashle
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // kaydı düzenle
+        // gelen değerlere göre Kullanıcı kaydı oluştur
         const value = new User(
             {
                 firstname: firstname,
@@ -69,9 +70,11 @@ router.post('/register', async (req, res) => {
  */
 router.post('/login', async (req, res) => {
     try {
+        // gelen değerleri formatlayarak al
         const email = req.body.email
         const password = req.body.password.trim()
 
+        // gelen değerlerin doğrulamalarının kontrolü
         if (!email || email === "")
             return res.status(400).send({ status: false, message: 'Kullanıcı e-posta boş olamaz.', data: null });
         if (!password || password === "")
@@ -81,29 +84,34 @@ router.post('/login', async (req, res) => {
         if (!isValidEmail(email))
             return res.status(400).send({ status: false, message: 'Geçersiz bir e-posta adresi.', data: null });
 
-        // kullanıcıyı getir
+        // gelen email değeriyle ilgili kaydın şifresini karşılaştırmak üzere bul
         const user = await User.findOne({ email: email, isActive: true })
         if (!user)
+            // gelen email veritabanında eşleşmediyse
             return res.status(400).send({ status: false, message: 'e-posta veya şifre hatalı.', data: null });
 
-        // Şifre doğrulaması yap
+        // şifre doğrulaması yap
         if (!await bcrypt.compare(password, user.password)) {
+            // şifreler eşleşmediyse
             return res.status(400).send({ status: false, message: 'e-posta veya şifre hatalı.', data: null });
         }
 
         // Kullanıcı başarılı bir şekilde giriş yaptı, JWT oluştur
         const token = jwt.sign({ id: user._id, mail: user.email, isAdmin: user.isAdmin }, 'gizliAnahtar', { expiresIn: '1h' });
 
+        // kullanıcı bilgileri güncelle
         user.token = token;
         user.lastlogin = new Date();
 
         // kaydı güncelle
         await user.save();
 
+        // başarılı olarak dönüt ver ve localstorage'a yazılmak üzere gerekli değerleri döndür
         res.status(200).send({ status: true, message: 'Giriş başarılı.', data: { token: token, email: user.email, kullanici: user.firstname + ' ' + user.lastname } });
 
     } catch (err) {
-        res.status(500).send(`Verileri getirme sırasında bir hata oluştu. Hata: ${err}`);
+        // hata alınması durumunda başarısız olarak dönüt ver
+        res.status(500).send(`Giriş yapma sırasında bir hata oluştu. Hata: ${err}`);
     }
 });
 

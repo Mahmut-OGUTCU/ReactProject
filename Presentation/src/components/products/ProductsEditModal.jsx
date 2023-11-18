@@ -102,10 +102,12 @@ const ProductsEditModal = ({
                 .toLowerCase()
                 .localeCompare((optionB?.label ?? "").toLowerCase())
             }
-            options={categories?.map((category) => ({
-              value: category._id,
-              label: category.title,
-            }))}
+            options={categories
+              ?.filter((val) => val._id !== "655902e3108a6319670f0db6")
+              .map((category) => ({
+                value: category._id,
+                label: category.title,
+              }))}
           />
         </Form.Item>
         <Form.Item>

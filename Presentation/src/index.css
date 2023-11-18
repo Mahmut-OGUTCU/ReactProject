@@ -30,4 +30,8 @@ body {
   .cart-items::-webkit-scrollbar {
     display: none;
   }
+  
+  .products::-webkit-scrollbar {
+    display: none;
+  }
 }

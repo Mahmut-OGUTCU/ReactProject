@@ -8,9 +8,9 @@ import "./style.css";
 const Categories = ({ categories, setCategories, setFiltered, products }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [categoryid, setCategoryid] = useState("6558975071945dd396eca6f6");
+  const [categoryid, setCategoryid] = useState("655902e3108a6319670f0db6");
   useEffect(() => {
-    if (categoryid === "6558975071945dd396eca6f6") {
+    if (categoryid === "655902e3108a6319670f0db6") {
       setFiltered(products);
     } else {
       setFiltered(products.filter((item) => item.category._id === categoryid));
