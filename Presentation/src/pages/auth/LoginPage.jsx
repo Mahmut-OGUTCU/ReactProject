@@ -18,6 +18,7 @@ const LoginPage = () => {
           localStorage.setItem("token", response.data.data.token);
           localStorage.setItem("email", response.data.data.email);
           localStorage.setItem("kullanici", response.data.data.kullanici);
+          localStorage.setItem("admin", response.data.data.isAdmin);
           navigate("/");
           setLoading(false);
         }

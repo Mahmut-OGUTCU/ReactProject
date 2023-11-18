@@ -8,6 +8,7 @@ import CartPage from "./pages/CartPage";
 import BillPage from "./pages/BillPage";
 import CustomerPage from "./pages/CustomerPage";
 import StatisticPage from "./pages/StatisticPage";
+import UserPage from "./pages/UserPage";
 import Products from "./pages/Products";
 import NotFound from "./pages/NotFound";
 
@@ -52,6 +53,14 @@ function App() {
           element={
             <RouteControl>
               <CartPage />{" "}
+            </RouteControl>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <RouteControl>
+              <UserPage />{" "}
             </RouteControl>
           }
         />

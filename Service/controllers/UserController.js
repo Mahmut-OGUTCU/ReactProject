@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
-const { formatString } = require('../helper/utils');
+const { formatString, isValidEmail } = require('../helper/utils');
 const checkAuth = require('../middleware');
 
 /**
@@ -14,6 +14,9 @@ const checkAuth = require('../middleware');
  */
 router.post('/user-get', checkAuth, async (req, res) => {
     try {
+        if (!req.user.isAdmin)
+            return res.status(400).send({ status: false, message: 'Sadece admin yetkisi görüntüleyebilir.', data: null });
+
         // gelen id değerini al
         const _id = req.body.id;
 
@@ -51,6 +54,9 @@ router.post('/user-get', checkAuth, async (req, res) => {
  */
 router.post('/user-add', checkAuth, async (req, res) => {
     try {
+        if (!req.user.isAdmin)
+            return res.status(400).send({ status: false, message: 'Sadece admin yetkisi ekleyebilir.', data: null });
+
         // gelen değerleri formatlayarak al
         const firstname = formatString(req.body.firstname);
         const lastname = formatString(req.body.lastname)
@@ -110,8 +116,11 @@ router.post('/user-add', checkAuth, async (req, res) => {
  */
 router.post('/user-update', checkAuth, async (req, res) => {
     try {
+        if (!req.user.isAdmin)
+            return res.status(400).send({ status: false, message: 'Sadece admin yetkisi düzenleyebilir.', data: null });
+
         // gelen değerleri formatlayarak al
-        const _id = req.body.id;
+        const _id = req.body._id;
         const firstname = formatString(req.body.firstname);
         const lastname = formatString(req.body.lastname)
         const email = req.body.email
@@ -129,7 +138,7 @@ router.post('/user-update', checkAuth, async (req, res) => {
             return res.status(400).send({ status: false, message: 'Geçersiz bir e-posta adresi.', data: null });
 
         // email alanını unique olarak kontrol et
-        if (await User.findOne({ email: email, title, _id: { $ne: _id }, isActive: true }))
+        if (await User.findOne({ email: email, _id: { $ne: _id }, isActive: true }))
             return res.status(400).send({ status: false, message: 'Bu e-posta zaten kullanılmaktadır. Lütfen başka bir e-posta deneyin.', data: null });
 
         // gelen id değeriyle ilgili kaydı güncellemek üzere bul
@@ -161,6 +170,9 @@ router.post('/user-update', checkAuth, async (req, res) => {
  */
 router.post('/user-password-update', checkAuth, async (req, res) => {
     try {
+        if (!req.user.isAdmin)
+            return res.status(400).send({ status: false, message: 'Sadece admin yetkisi düzenleyebilir.', data: null });
+
         // gelen değerleri formatlayarak al
         const _id = req.body.id;
         const password = req.body.password.trim()

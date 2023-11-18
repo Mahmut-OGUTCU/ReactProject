@@ -7,6 +7,7 @@ import {
   UserOutlined,
   BarChartOutlined,
   LogoutOutlined,
+  UsergroupDeleteOutlined,
 } from "@ant-design/icons";
 import { Badge, Input, message } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -17,7 +18,7 @@ const Header = ({ setSearch }) => {
   const cart = useSelector((state) => state.cart);
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
+  const isAdmin = localStorage.getItem("admin");
   const logOut = () => {
     if (window.confirm("Çıkış yapmak istediğinize emin misiniz?")) {
       localStorage.removeItem("token");
@@ -91,6 +92,15 @@ const Header = ({ setSearch }) => {
             <BarChartOutlined className="md:text-2xl text-xl" />
             <span className="md:text-xs text-[10px]">İstatikler</span>
           </Link>
+          {isAdmin === "true" && (
+            <Link
+              to="/users"
+              className={`menu-link ${pathname === "/users" && "active"}`}
+            >
+              <UsergroupDeleteOutlined className="md:text-2xl text-xl" />
+              <span className="md:text-xs text-[10px]">Kullanıcılar</span>
+            </Link>
+          )}
           <div onClick={logOut}>
             <Link className={`menu-link`}>
               {" "}

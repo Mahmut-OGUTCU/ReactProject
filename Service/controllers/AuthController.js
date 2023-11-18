@@ -107,7 +107,7 @@ router.post('/login', async (req, res) => {
         await user.save();
 
         // başarılı olarak dönüt ver ve localstorage'a yazılmak üzere gerekli değerleri döndür
-        res.status(200).send({ status: true, message: 'Giriş başarılı.', data: { token: token, email: user.email, kullanici: user.firstname + ' ' + user.lastname } });
+        res.status(200).send({ status: true, message: 'Giriş başarılı.', data: { token: token, email: user.email, kullanici: user.firstname + ' ' + user.lastname, isAdmin: user.isAdmin } });
 
     } catch (err) {
         // hata alınması durumunda başarısız olarak dönüt ver
