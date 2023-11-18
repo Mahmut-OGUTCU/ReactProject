@@ -2,8 +2,9 @@
 import axios from "axios";
 import { message } from "antd";
 
+console.log(process.env.REACT_APP_SERVER_URL);
 export const appAxios = axios.create({
-  baseURL: "http://localhost:5000/api/",
+  baseURL: process.env.REACT_APP_SERVER_URL + "/api/",
   headers: {
     "Content-Type": "application/json; charset=UTF-8",
   },
