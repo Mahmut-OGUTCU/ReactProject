@@ -42,7 +42,7 @@ Sunucuyu çalıştırın
 ## API Kullanımı
 
 - Tüm istekler güvenlik açısından POST isteği ile yapılmıştır.
-- İstemcideki aktif kullanıcı CRUD işlemleri için herhangi birini gerçekleştirmeye çalışması durumunda eğer JWT ile oluşturulmuş token geçersizse veya token yok ise istekler gerçekleştirmeyecektir.
+- İstemcideki aktif kullanıcı CRUD (create, read, update, delete) işlemleri için herhangi birini gerçekleştirmeye çalışması durumunda eğer JWT ile oluşturulmuş token geçersizse veya token yok ise istekler gerçekleştirmeyecektir.
 - Delete işlemleri yetkilendirme sayesinde sadece Admin kullanıcılarına aittir.
 
 #### Tüm öğeleri getir
