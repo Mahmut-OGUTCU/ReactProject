@@ -55,7 +55,7 @@ Sunucuyu çalıştırın
 | :-------- | :------- | :--------------------------------------------  |
 |  `token`  | `string` | **Gerekli**. Login yapınca oluşan token değeri. |
 
-| Parametre | Tip     | Açıklama                       |
+| Body | Tip     | Açıklama                       |
 | :-------- | :------- | :-------------------------------- |
 | `id`      | `string` | Tek kayıt isteniyorsa id boş bırakılabilir veya gönderilmez. |
  
@@ -68,7 +68,7 @@ Sunucuyu çalıştırın
 | :-------- | :------- | :--------------------------------------------  |
 |  `token`  | `string` | **Gerekli**. Login yapınca oluşan token değeri. |
 
-| Parametre | Tip     | Açıklama                       |
+| Body | Tip     | Açıklama                       |
 | :-------- | :------- | :-------------------------------- |
 | `id`      | `string` | Tek kayıt isteniyorsa id gönderilmeli. |
 
@@ -80,7 +80,7 @@ Sunucuyu çalıştırın
 | :-------- | :------- | :--------------------------------------------  |
 |  `token`  | `string` | **Gerekli**. Login yapınca oluşan token değeri. |
 
-| Parametre | Tip     | Açıklama                       |
+| Body | Tip     | Açıklama                       |
 | :-------- | :------- | :-------------------------------- |
 | `firstname`      | `string` | **Gerekli**. Girilecek string ifade. |
 | `lastname`      | `string` | **Gerekli**. Girilecek string ifade. |
