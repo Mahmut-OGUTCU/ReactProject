@@ -24,7 +24,6 @@ const UserPage = () => {
   };
 
   const addRecord = (record) => {
-    console.log("addRecord", record);
     setIsAddorEditModalOpen(false);
     appAxios
       .post("user/user-add", record)
@@ -39,7 +38,6 @@ const UserPage = () => {
   };
 
   const editRecord = (record) => {
-    console.log("editRecord", record);
     setIsAddorEditModalOpen(false);
     appAxios
       .post("user/user-update", record)
@@ -66,7 +64,6 @@ const UserPage = () => {
   };
 
   const deleteRecord = (id) => {
-    console.log("deleteRecord", id);
     appAxios
       .post("user/user-delete", { id: id })
       .then(async (response) => {

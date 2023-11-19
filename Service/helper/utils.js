@@ -19,7 +19,10 @@ function isValidEmail(val) {
 function isValidPhoneNumber(val) {
     isEmptyorNull(val)
     const phoneRegex = /^\d{10}$/;
-    return phoneRegex.test(val);
+    if (phoneRegex.test(val)) {
+        return val
+    }
+    return '';
 }
 
 function phoneNumberFormat(val) {
@@ -27,7 +30,8 @@ function phoneNumberFormat(val) {
     if (typeof val !== 'string') {
         val = val.toString();
     }
-    return val.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+    val = val.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3')
+    return val;
 }
 
 function isValidTCNumber(val) {

@@ -24,6 +24,7 @@ const Header = ({ setSearch }) => {
       localStorage.removeItem("token");
       localStorage.removeItem("kullanici");
       localStorage.removeItem("email");
+      localStorage.removeItem("admin");
       navigate("/login");
       message.success("Çıkış işlemi başarılı.");
     }

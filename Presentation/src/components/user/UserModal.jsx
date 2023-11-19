@@ -18,7 +18,6 @@ export const UserModal = ({
       addRecord(record);
     }
   };
-  console.log(user);
   useEffect(() => {
     if (user?._id) {
       form.setFieldsValue({

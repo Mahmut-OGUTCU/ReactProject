@@ -2,7 +2,6 @@
 import axios from "axios";
 import { message } from "antd";
 
-console.log(process.env.REACT_APP_SERVER_URL);
 export const appAxios = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL + "/api/",
   headers: {
@@ -39,6 +38,13 @@ appAxios.interceptors.response.use(
   },
   (error) => {
     message.error(error.response.data.message);
+    if (error.response.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("kullanici");
+      localStorage.removeItem("email");
+      localStorage.removeItem("admin");
+      window.location.href = "/login";
+    }
     return Promise.reject(error);
   }
 );
