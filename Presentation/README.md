@@ -33,7 +33,7 @@ Gerekli paketleri yükleyin
   npm install
 ```
 
-Sunucuyu çalıştırın
+İstemciyi çalıştırın
 
 ```bash
   npm start
