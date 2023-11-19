@@ -17,7 +17,7 @@ Bu klasör, projenin backend kısmını içerir ve gerçek bir teknoloji harikas
 
 Bu projeyi çalıştırmak için aşağıdaki ortam değişkenlerini .env dosyanıza eklemeniz gerekecek
 
-`MONGO_URI` (mongodb connection linki)
+`MONGO_URI` (mongodb bağlantısı)
 ## Bilgisayarınızda Çalıştırın
 
 Proje dizinine gidin
