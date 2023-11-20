@@ -130,7 +130,7 @@ const PrintBill = ({ isModalOpen, setIsModalOpen, customer }) => {
                       </td>
                       <td className="py-4 sm:table-cell hidden">
                         <div className="flex flex-col">
-                          <span className="font-medium">Şalgam</span>
+                          <span className="font-medium">{item.title}</span>
                           <span className="sm:hidden inline-block text-xs">
                             Birim Fiyatı {item.price.toFixed(2)}₺
                           </span>
@@ -138,7 +138,7 @@ const PrintBill = ({ isModalOpen, setIsModalOpen, customer }) => {
                       </td>
                       <td className="py-4 sm:hidden" colSpan={3}>
                         <div className="flex flex-col">
-                          <span className="font-medium">Şalgam</span>
+                          <span className="font-medium">{item.title}</span>
                           <span className="sm:hidden inline-block text-xs">
                             Birim Fiyatı {item.price.toFixed(2)}₺
                           </span>
