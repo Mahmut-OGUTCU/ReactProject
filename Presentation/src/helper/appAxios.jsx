@@ -43,7 +43,7 @@ appAxios.interceptors.response.use(
       localStorage.removeItem("kullanici");
       localStorage.removeItem("email");
       localStorage.removeItem("admin");
-      window.location.href = "/login";
+      // window.location.href = "/login";
     }
     return Promise.reject(error);
   }
